@@ -1,0 +1,53 @@
+use sakila;
+
+select * from actor;
+
+select * from actor where first_name = 'John';
+
+select * from actor where last_name = 'Neeson';
+
+select * from actor where (actor_id%10) = 0;
+
+select description from film where film_id = '100';
+
+select * from film where rating = 'R';
+
+select * from film where rating Not in ('R');
+
+select * from film order by length limit 10;
+
+select title from film order by length limit 10;
+
+select * from film where special_features like '%Deleted Scenes%';
+
+SELECT * FROM actor GROUP BY last_name HAVING COUNT(*) < 2;
+
+SELECT last_name FROM actor GROUP BY last_name HAVING COUNT(*) > 1;
+
+select * from film_actor;
+
+SELECT actor.actor_id, actor.first_name, actor.last_name,
+count(actor_id) as film_count
+FROM actor JOIN film_actor USING (actor_id)
+group by actor_id
+order by film_count desc
+limit 1;
+
+SELECT * FROM film JOIN inventory ON film.film_id = inventory.film_id WHERE store_id = 1 AND film.film_id = (
+SELECT film_id FROM film WHERE title = "Academy Dinosaur"
+);
+
+select return_date from rental where inventory_id = "1";
+
+SELECT * FROM inventory join rental ON inventory.inventory_id = rental.inventory_id WHERE inventory.film_id =(
+Select film_id from film where title = "Academy Dinosaur");
+
+select avg(length) from film;
+
+select film_category.category_id,
+avg(length) as avg_length
+from film join film_category using (film_id)
+group by category_id;
+
+select * from film_category;
+
